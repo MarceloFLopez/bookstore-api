@@ -28,12 +28,11 @@ public class Categoria implements Serializable{
 	@JsonIgnore	
 	private List<Livro> livros = new ArrayList<>();
 
-	public Categoria(Integer id, String nome, String descricao, List<Livro> livros) {
+	public Categoria(Integer id, String nome, String descricao) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
-		this.livros = livros;
 	}
 
 	public Categoria() {
@@ -66,10 +65,6 @@ public class Categoria implements Serializable{
 
 	public List<Livro> getLivros() {
 		return livros;
-	}
-
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
 	}
 
 	@Override
