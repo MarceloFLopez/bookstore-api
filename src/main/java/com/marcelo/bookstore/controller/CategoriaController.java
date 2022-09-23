@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelo.bookstore.domain.Categoria;
 import com.marcelo.bookstore.repository.CategoriaRepository;
+import com.marcelo.bookstore.service.exception.ObjectNotFoundException;
 
 @RestController
 @RequestMapping(value = "/categorias")
@@ -33,9 +34,9 @@ public class CategoriaController {
 	}
 
 	@GetMapping("/{id}")
-	public Optional<Categoria> findById(@PathVariable Integer id) {
+	public Categoria findById(@PathVariable Integer id) {
 		Optional<Categoria> categoria = catRepository.findById(id);
-		return categoria;
+		return categoria.orElseThrow(()-> new ObjectNotFoundException("Objeto não encontrado! id: "+id+", tipo"+Categoria.class.getName()));
 	}
 
 	@PostMapping
