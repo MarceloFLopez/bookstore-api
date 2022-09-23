@@ -1,4 +1,4 @@
-package com.marcelo.bookstore.controller;
+package com.marcelo.bookstore.resources;
 
 import java.util.List;
 import java.util.Optional;
