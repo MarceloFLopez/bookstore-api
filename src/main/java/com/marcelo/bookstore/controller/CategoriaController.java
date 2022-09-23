@@ -2,11 +2,13 @@ package com.marcelo.bookstore.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.marcelo.bookstore.domain.Categoria;
+import com.marcelo.bookstore.dtos.CategoriaDTO;
 import com.marcelo.bookstore.repository.CategoriaRepository;
 import com.marcelo.bookstore.service.exception.ObjectNotFoundException;
 
@@ -31,6 +34,13 @@ public class CategoriaController {
 	public List<Categoria> listAll() {
 		List<Categoria> categorias = catRepository.findAll();
 		return categorias;
+	}
+	
+	@RequestMapping()
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+		List<Categoria> list = catRepository.findAll();
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 	@GetMapping("/{id}")
