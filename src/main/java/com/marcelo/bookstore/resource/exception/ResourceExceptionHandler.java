@@ -1,4 +1,4 @@
-package com.marcelo.bookstore.resource;
+package com.marcelo.bookstore.resource.exception;
 
 import javax.servlet.ServletRequest;
 
