@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +25,7 @@ import com.marcelo.bookstore.domain.Livro;
 import com.marcelo.bookstore.dtos.LivroDTO;
 import com.marcelo.bookstore.service.LivroService;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/livros")
 public class LivroResoruce {
@@ -38,36 +40,38 @@ public class LivroResoruce {
 	}
 
 	@PostMapping
-	public ResponseEntity<Livro>  create(@RequestParam(value = "categoria", defaultValue = "0")Integer id_cat,
-			@RequestBody Livro obj){
-		Livro newObjs = service.create(id_cat,obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}").buildAndExpand(newObjs.getId()).toUri();
+	public ResponseEntity<Livro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat,
+			@Valid @RequestBody Livro obj) {
+		Livro newObjs = service.create(id_cat, obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}")
+				.buildAndExpand(newObjs.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<LivroDTO>> findAll(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat){
+	public ResponseEntity<List<LivroDTO>> findAll(
+			@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat) {
 		List<Livro> list = service.findAll(id_cat);
 		List<LivroDTO> listDto = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Livro> update( @PathVariable Integer id, @Valid @RequestBody Livro obj){
+	public ResponseEntity<Livro> update(@PathVariable Integer id, @Valid @RequestBody Livro obj) {
 		Livro newObjs = service.update(id, obj);
 		return ResponseEntity.ok().body(newObjs);
 	}
-	
+
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<Livro> updatePatch(@PathVariable Integer id, @Valid  @RequestBody Livro obj){
+	public ResponseEntity<Livro> updatePatch(@PathVariable Integer id, @Valid @RequestBody Livro obj) {
 		Livro newObjs = service.update(id, obj);
 		return ResponseEntity.ok().body(newObjs);
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 }

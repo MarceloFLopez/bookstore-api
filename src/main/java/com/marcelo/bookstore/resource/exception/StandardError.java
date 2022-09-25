@@ -1,4 +1,4 @@
-package com.marcelo.bookstore.service.exception;
+package com.marcelo.bookstore.resource.exception;
 
 public class StandardError {
 
