@@ -22,7 +22,7 @@ import com.marcelo.bookstore.service.CategoriaService;
 
 @RestController
 @RequestMapping(value = "/categorias")
-public class CategoriaController {
+public class CategoriaResoruce {
 
 	@Autowired
 	private CategoriaService service;
@@ -32,37 +32,38 @@ public class CategoriaController {
 		Categoria obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	//Metodo retorna uma lista de objeto sem seus valores encapsulados
+
+	// Metodo retorna uma lista de objeto sem seus valores encapsulados
 	@GetMapping
-	public ResponseEntity<List<CategoriaDTO>> findAll(){
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
 		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	//Metodo retorna uma lista de objeto com seus valores encapsulados
+
+	// Metodo retorna uma lista de objeto com seus valores encapsulados
 	@GetMapping
 	@RequestMapping("/listComplet")
-	public List<Categoria> findComplet(){
+	public ResponseEntity<List<Categoria>> findComplet() {
 		List<Categoria> list = service.findAll();
-		return list;
+		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Categoria>create(@RequestBody Categoria obj){
+	public ResponseEntity<Categoria> create(@RequestBody Categoria obj) {
 		obj = service.create(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id,@RequestBody CategoriaDTO objDto){
+	public ResponseEntity<CategoriaDTO> update(@PathVariable Integer id, @RequestBody CategoriaDTO objDto) {
 		Categoria newObj = service.update(id, objDto);
 		return ResponseEntity.ok().body(new CategoriaDTO(newObj));
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
