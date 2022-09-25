@@ -4,13 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.marcelo.bookstore.domain.Categoria;
 import com.marcelo.bookstore.domain.Livro;
 import com.marcelo.bookstore.repository.LivroRepository;
-import com.marcelo.bookstore.service.exception.DataIntegriteViolationException;
 import com.marcelo.bookstore.service.exception.ObjectNotFoundException;
 
 @Service
@@ -47,12 +45,8 @@ public class LivroService {
 	}
 
 	public void delete(Integer id) {
-		findById(id);
-		try {
-			repository.deleteById(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegriteViolationException("Livro não pode ser deletado! Possui livros associados.");
-		}
+		Livro obj = findById(id);
+		repository.delete(obj);
 	}
 
 	public Livro create(Integer id_cat, Livro obj) {
