@@ -2,6 +2,10 @@ package com.marcelo.bookstore.dtos;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.marcelo.bookstore.domain.Categoria;
 
 public class CategoriaDTO implements Serializable{
@@ -9,7 +13,11 @@ public class CategoriaDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Integer id;
+	@NotEmpty(message = "Campo Nome é obrigatorio")
+	@Length(min = 3, max = 100, message = "Campo NOME deve ter pelo menos 3 caracteres e no maximo 100")
 	private String nome;
+	@NotEmpty(message = "Campo Nome é obrigatorio")
+	@Length(min = 3, max = 200, message = "Campo DESCRIÇÃO deve ter pelo menos 3 caracteres e no maximo 100")
 	private String descricao;
 
 	public CategoriaDTO(Categoria obj) {
