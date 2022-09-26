@@ -49,7 +49,7 @@ public class CategoriaResoruce {
 
 	// FindAll
 	@GetMapping
-	@RequestMapping("/listComplet")
+	@RequestMapping("/lista")
 	public ResponseEntity<List<Categoria>> findComplet() {
 		List<Categoria> list = service.findAll();
 		return ResponseEntity.ok().body(list);
