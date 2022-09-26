@@ -48,7 +48,7 @@ public class LivroResoruce {
 	}
 	
 	// Lista de livros completas sem filtro
-	@GetMapping(value = "/list")
+	@GetMapping(value = "/lista")
 	public ResponseEntity<List<Livro>> findAll(){
 		List<Livro> list = service.findAll();
 		return ResponseEntity.ok().body(list);
