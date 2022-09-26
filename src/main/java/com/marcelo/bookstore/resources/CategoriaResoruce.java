@@ -44,6 +44,8 @@ public class CategoriaResoruce {
 		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
+	
+	
 
 	// FindAll
 	@GetMapping

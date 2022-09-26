@@ -38,6 +38,21 @@ public class LivroResoruce {
 		Livro obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	// Lista ded livro pelo ID da categoria
+	@GetMapping
+	public ResponseEntity<List<LivroDTO>> findAll(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat) {
+		List<Livro> list = service.findAll(id_cat);
+		List<LivroDTO> listDto = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	// Lista de livros completas sem filtro
+	@GetMapping(value = "/list")
+	public ResponseEntity<List<Livro>> findAll(){
+		List<Livro> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 
 	@PostMapping
 	public ResponseEntity<Livro> create(@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat,
@@ -46,14 +61,6 @@ public class LivroResoruce {
 		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}")
 				.buildAndExpand(newObjs.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-	}
-
-	@GetMapping
-	public ResponseEntity<List<LivroDTO>> findAll(
-			@RequestParam(value = "categoria", defaultValue = "0") Integer id_cat) {
-		List<Livro> list = service.findAll(id_cat);
-		List<LivroDTO> listDto = list.stream().map(obj -> new LivroDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
 	}
 
 	@PutMapping(value = "/{id}")

@@ -31,6 +31,10 @@ public class LivroService {
 		return repository.findAllByCategoria(id_cat);
 
 	}
+	
+	public List<Livro> findAll() {
+		return repository.findAll();
+	}
 
 	public Livro update(Integer id, Livro obj) {
 		Livro newObj = findById(id);
